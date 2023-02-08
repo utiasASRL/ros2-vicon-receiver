@@ -3,7 +3,7 @@
 This ros2 package can be used to stream data from a VICON mocap system and publish it to custom ROS2 topics.
 This repository has the following changes from the [original code base](https://github.com/OPT4SMART/ros2-vicon-receiver):
 - IPs adapted to the My580 motion capture system
-- Pose information is broadcast to tf node
+- Pose information is broadcast as a tf2
 
 If you are using this repo and encounter any problems please report an issue! 
 
