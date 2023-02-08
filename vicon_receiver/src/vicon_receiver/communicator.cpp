@@ -11,6 +11,9 @@ Communicator::Communicator() : Node("vicon")
     this->get_parameter("hostname", hostname);
     this->get_parameter("buffer_size", buffer_size);
     this->get_parameter("namespace", ns_name);
+
+    tf_broadcaster_ =
+      std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 }
 
 bool Communicator::connect()
@@ -124,6 +127,7 @@ void Communicator::get_frame()
                     if (pub.is_ready)
                     {
                         pub.publish(current_position);
+                        this->broadcast(current_position);
                     }
                 }
                 else
@@ -135,6 +139,23 @@ void Communicator::get_frame()
             }
         }
     }
+}
+
+void Communicator::broadcast(PositionStruct p){
+    geometry_msgs::msg::TransformStamped t; 
+
+    t.header.stamp = this->get_clock()->now();
+    t.header.frame_id = "world";
+    t.child_frame_id = "vicon_object";
+    t.transform.translation.x = p.translation[0];
+    t.transform.translation.y = p.translation[1];
+    t.transform.translation.z = p.translation[2];
+    t.transform.rotation.x = p.rotation[0];
+    t.transform.rotation.y = p.rotation[1];
+    t.transform.rotation.z = p.rotation[2];
+    t.transform.rotation.w = p.rotation[3];
+
+    tf_broadcaster_->sendTransform(t);
 }
 
 void Communicator::create_publisher(const string subject_name, const string segment_name)

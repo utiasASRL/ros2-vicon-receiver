@@ -4,6 +4,8 @@
 #include "DataStreamClient.h"
 #include "rclcpp/rclcpp.hpp"
 #include "publisher.hpp"
+#include "tf2_ros/transform_broadcaster.h"
+
 #include <iostream>
 #include <map>
 #include <chrono>
@@ -23,6 +25,7 @@ private:
     string ns_name;
     map<string, Publisher> pub_map;
     boost::mutex mutex;
+    std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
 public:
     Communicator();
@@ -40,6 +43,9 @@ public:
     // functions to create a segment publisher in a new thread
     void create_publisher(const string subject_name, const string segment_name);
     void create_publisher_thread(const string subject_name, const string segment_name);
+
+    // function to broadcast tf
+    void broadcast(PositionStruct p);
 };
 
 #endif // COMMUNICATOR_HPP
