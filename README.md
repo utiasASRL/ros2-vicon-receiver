@@ -1,4 +1,13 @@
-# Vicon receiver for ROS2 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/andreacamisa/ros2-vicon-receiver)
+# Vicon wrapper for ROS2
+
+This ros2 package can be used to stream data from a VICON mocap system and publish it to custom ROS2 topics.
+This repository has the following changes from the [original code base](https://github.com/OPT4SMART/ros2-vicon-receiver):
+- IPs adapted to the My580 motion capture system
+- Pose information is broadcast to tf node
+
+If you are using this repo and encounter any problems please report an issue! 
+
+## Instructions (from original repository)
 
 **ros2-vicon-receiver** is a ROS2 package, written in C++, that retrieves data from Vicon software and publishes it on ROS2 topics. The code is partly derived from a mixture of [Vicon-ROS2](https://github.com/aheuillet/Vicon-ROS2) and [Vicon bridge](https://github.com/ethz-asl/vicon_bridge).
 
