@@ -1,11 +1,21 @@
 # Vicon wrapper for ROS2
 
-This ros2 package can be used to stream data from a VICON mocap system and publish it to custom ROS2 topics.
+This ros2 package can be used to stream data from a Vicon mocap system and publish it to custom ROS2 topics.
 This repository has the following changes from the [original code base](https://github.com/OPT4SMART/ros2-vicon-receiver):
 - IPs adapted to the My580 motion capture system
 - Pose information is broadcast as a tf2
 
 If you are using this repo and encounter any problems please report an issue! 
+
+## Network setup
+
+When connected via ethernet to the Vicon desktop computer, set the IP address manually to 
+192.168.10.1. Use 255.255.255.0 for netmask and 192.168.10.1 for gateway. See [doc/0_network.png](doc/0_network.png) for a screenshot of the Ubuntu settings.
+
+If there are no recognized objects in the Vicon area, it's normal that you don't receive any data. Data will start to be published once your object is registered and actively tracked inside the Vicon software.
+
+In case you still do not receive any data, make sure that the Vicon machine is publishing, and to the correct IP. In particular, Vicon should be publishing via UDP object stream to 192.168.10.2. See [doc/1_vicon_settings.png](doc/1_vicon_settings.png) and [doc/2_vicon_udp.png](doc/2_vicon_udp.png) for where to find these settings.  
+
 
 ## Instructions (from original repository)
 
