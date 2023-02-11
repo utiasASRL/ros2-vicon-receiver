@@ -10,7 +10,7 @@ If you are using this repo and encounter any problems please report an issue!
 ## Network setup
 
 When connected via ethernet to the Vicon desktop computer, set the IP address manually to 
-192.168.10.1. Use 255.255.255.0 for netmask and 192.168.10.1 for gateway. See [doc/0_network.png](doc/0_network.png) for a screenshot of the Ubuntu settings.
+192.168.10.1. Use 255.255.255.0 for netmask and 192.168.10.1 for gateway. See [doc/3_network.png](doc/3_network.png) for a screenshot of the Ubuntu settings.
 
 If there are no recognized objects in the Vicon area, it's normal that you don't receive any data. Data will start to be published once your object is registered and actively tracked inside the Vicon software.
 
