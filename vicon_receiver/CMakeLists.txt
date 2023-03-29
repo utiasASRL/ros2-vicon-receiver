@@ -20,6 +20,7 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
 )
 
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
@@ -27,14 +28,17 @@ find_package(rclcpp REQUIRED)
 find_package(Boost REQUIRED COMPONENTS thread)
 find_package(tf2_ros REQUIRED)
 
+
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Position.msg"
 )
 
+rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
 ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(vicon_client src/vicon_receiver/communicator.cpp src/vicon_receiver/publisher.cpp)
-target_link_libraries(vicon_client ViconDataStreamSDK_CPP ${Boost_LIBRARIES})
+target_link_libraries(vicon_client ${cpp_typesupport_targets} ViconDataStreamSDK_CPP ${Boost_LIBRARIES})
 ament_target_dependencies(vicon_client "rclcpp" "tf2_ros")
 
 get_default_rmw_implementation(rmw_implementation)
@@ -42,7 +46,7 @@ find_package("${rmw_implementation}" REQUIRED)
 get_rmw_typesupport(typesupport_impls "${rmw_implementation}" LANGUAGE "cpp")
 
 foreach(typesupport_impl ${typesupport_impls})
-  rosidl_target_interfaces(vicon_client
+  rosidl_get_typesupport_target(vicon_client
     ${PROJECT_NAME} ${typesupport_impl}
   )
 endforeach()
