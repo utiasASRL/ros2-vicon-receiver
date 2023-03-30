@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.8)
 project(vicon_receiver)
 
 # Default to C99
@@ -12,7 +12,7 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic -g)
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 include_directories(
@@ -28,17 +28,14 @@ find_package(rclcpp REQUIRED)
 find_package(Boost REQUIRED COMPONENTS thread)
 find_package(tf2_ros REQUIRED)
 
-
-rosidl_generate_interfaces(${PROJECT_NAME}
+set(msg_files
   "msg/Position.msg"
 )
-
-rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
-
-ament_export_dependencies(rosidl_default_runtime)
+rosidl_generate_interfaces(${PROJECT_NAME} ${msg_files})
+rosidl_get_typesupport_target(cpp_typesupport_target
+    ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 add_executable(vicon_client src/vicon_receiver/communicator.cpp src/vicon_receiver/publisher.cpp)
-target_link_libraries(vicon_client ${cpp_typesupport_targets} ViconDataStreamSDK_CPP ${Boost_LIBRARIES})
 ament_target_dependencies(vicon_client "rclcpp" "tf2_ros")
 
 get_default_rmw_implementation(rmw_implementation)
@@ -52,6 +49,7 @@ foreach(typesupport_impl ${typesupport_impls})
 endforeach()
 
 install(TARGETS vicon_client DESTINATION lib/${PROJECT_NAME})
+target_link_libraries(vicon_client "${cpp_typesupport_target}" ViconDataStreamSDK_CPP ${Boost_LIBRARIES})
 
 # Install launch file
 install(DIRECTORY
@@ -59,4 +57,5 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
+ament_export_dependencies(rosidl_default_runtime)
 ament_package()
