@@ -16,6 +16,17 @@ If there are no recognized objects in the Vicon area, it's normal that you don't
 
 In case you still do not receive any data, make sure that the Vicon machine is publishing, and to the correct IP. In particular, Vicon should be publishing via UDP object stream to 192.168.10.2. See [doc/1_vicon_settings.png](doc/1_vicon_settings.png) and [doc/2_vicon_udp.png](doc/2_vicon_udp.png) for where to find these settings.  
 
+**Currently, the settings in Myhal 580 have changed to IP address 100.66.64.83 to enable use with Wifi router. Other settings (Buffer length, Port) remain unchanged.**
+
+### Wireless Networking
+
+To use the wireless router in MY580, connect the Vicon computer to the Wifi router using a network cable. Connect the machine with the vicon receiver to the wifi:
+
+**Name:       ROB301**
+
+**Password:   50002399**
+
+The ros node should then be able to see the Vicon data.
 
 ## Instructions (from original repository)
 
