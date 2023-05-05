@@ -13,7 +13,7 @@ Communicator::Communicator() : Node("vicon")
     this->get_parameter("namespace", ns_name);
 
     tf_broadcaster_ =
-      std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+        std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 }
 
 bool Communicator::connect()
@@ -101,7 +101,7 @@ void Communicator::get_frame()
                 vicon_client.GetSegmentGlobalTranslation(subject_name, segment_name);
             Output_GetSegmentGlobalRotationQuaternion rot =
                 vicon_client.GetSegmentGlobalRotationQuaternion(subject_name, segment_name);
-            
+
             for (size_t i = 0; i < 4; i++)
             {
                 if (i < 3)
@@ -122,7 +122,7 @@ void Communicator::get_frame()
                 pub_it = pub_map.find(subject_name + "/" + segment_name);
                 if (pub_it != pub_map.end())
                 {
-                    Publisher & pub = pub_it->second;
+                    Publisher &pub = pub_it->second;
 
                     if (pub.is_ready)
                     {
@@ -141,12 +141,13 @@ void Communicator::get_frame()
     }
 }
 
-void Communicator::broadcast(PositionStruct p){
-    geometry_msgs::msg::TransformStamped t; 
+void Communicator::broadcast(PositionStruct p)
+{
+    geometry_msgs::msg::TransformStamped t;
 
     t.header.stamp = this->get_clock()->now();
     t.header.frame_id = "world";
-    t.child_frame_id = "vicon_object";
+    t.child_frame_id = p.subject_name;
     t.transform.translation.x = p.translation[0];
     t.transform.translation.y = p.translation[1];
     t.transform.translation.z = p.translation[2];
@@ -179,13 +180,14 @@ void Communicator::create_publisher_thread(const string subject_name, const stri
     lock.unlock();
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
     auto node = std::make_shared<Communicator>();
     node->connect();
 
-    while (rclcpp::ok()){
+    while (rclcpp::ok())
+    {
         node->get_frame();
     }
 
