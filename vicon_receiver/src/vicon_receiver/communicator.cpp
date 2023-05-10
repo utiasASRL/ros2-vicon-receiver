@@ -146,7 +146,7 @@ void Communicator::broadcast(PositionStruct p)
     geometry_msgs::msg::TransformStamped t;
 
     t.header.stamp = this->get_clock()->now();
-    t.header.frame_id = "world";
+    t.header.frame_id = "base_link";
     t.child_frame_id = p.subject_name;
     t.transform.translation.x = p.translation[0];
     t.transform.translation.y = p.translation[1];
