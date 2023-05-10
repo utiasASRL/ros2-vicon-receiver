@@ -3,7 +3,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    hostname = '100.66.64.83'
+    hostname = '100.69.127.99'
     buffer_size = 1024
     topic_namespace = 'vicon'
 
